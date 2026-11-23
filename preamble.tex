@@ -1,0 +1,37 @@
+% Packages & styling (preamble)
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage[czech]{babel}
+
+\usepackage{geometry}
+\geometry{
+  top=2.5cm,
+  bottom=2.5cm,
+  left=2.5cm,
+  right=2.5cm
+}
+
+\usepackage{tgheros}
+\usepackage{newtxtext}
+\usepackage{titlesec}
+\usepackage{graphicx}
+
+% Headings
+\titleformat{\section}
+  {\normalfont\bfseries\large}
+  {\thesection}{1em}{}
+\titleformat{\subsection}
+  {\normalfont\large\bfseries}
+  {\thesubsection}{1em}{}
+\titleformat{\subsubsection}
+  {\normalfont\normalsize\bfseries}
+  {\thesubsubsection}{1em}{}
+
+\titlespacing*{\section}
+  {0pt}{0pt}{4pt}
+\titlespacing*{\subsection}
+  {0pt}{10pt}{6pt}
+\titlespacing*{\subsubsection}
+  {0pt}{6pt}{6pt}
+
+\pagestyle{empty}
