@@ -1,26 +1,48 @@
 \section{Vypracování}
 \subsection{Popis úlohy a zapojení}
-Cílem úlohy bylo získávat údaje ze dvou termočlánků a dalšího snímače prostřednictvím vzdálené stanice vstupů a přenášet je po síti Ethernet do počítače. Stanici tvořil komunikační modul Yaskawa IM053-MT01 pro Modbus TCP/IP a připojené vstupní moduly. Sestava byla napájena externím zdrojem. Fotografie zapojení je na obrázku~\ref{fig:zapojeni}; z fotografie nelze spolehlivě určit jednotlivé svorky ani typy všech vstupních karet.
+Cílem úlohy bylo získávat údaje ze dvou termočlánků a dalšího snímače prostřednictvím vzdálené stanice vstupů a přenášet je po síti Ethernet do počítače. Stanici tvořil komunikační modul Yaskawa IM053-MT01 pro Modbus TCP/IP a připojené vstupní moduly. Sestava byla napájena externím zdrojem. Fotografie zapojení je na obrázku~\ref{fig:zapojeni}.
+\begin{table}[H]
+\caption{Seznam použitých zařízení}
+\label{tab:zarizeni}
+\centering
+\begin{tabular}{|p{7cm}|p{5.5cm}|}
+\hline \textbf{Popis přístroje} & \textbf{Typ přístroje} \\ 
+\hline Komunikační modul & Yaskawa IM053-MT01\\ 
+\hline 1$\times$ DC napájecí modul & 007-0AA0 \\ 
+\hline 1$\times$ Termočlánkový modul & 031-1BB90 \\ 
+\hline 1$\times$ Proudové vstupy 0-10V, 4x ,16bit & 031-1CD30 \\ 
+\hline 1$\times$ Proudové vstupy 4-20mA, 4x ,16bit & 031-1CD40 \\ 
+\hline 2$\times$ Digitální vstupy 24V, 4x & 021-1BD00 \\ 
+\hline 1$\times$  Relátkové výstupy 3A & 022-1HB10 \\ 
+\hline Indukční snímač & Balluff BES 517-132-P7-H-S4 \\ 
+\hline Dva termočlánky & Typ z podkladů nezjištěn \\
+\hline Počítač & LabVIEW \\
+\hline
+\end{tabular}
+\end{table}
 
-\begin{figure}[htbp]
-\centering\includegraphics[width=.7\linewidth]{zapojeni_novy.jpg}
-\caption{Laboratorní sestava s distribuovanými vstupy a napájením}
+\begin{figure}[H]
+\centering
+\includegraphics[width=.55\linewidth]{zapojeni_novy.jpg}
+\caption{Laboratorní sestava s distribuovanými vstupy, indukčním snímačem, termočlánky a zdrojem}
 \label{fig:zapojeni}
 \end{figure}
 
-Dalším přístrojem byl indukční snímač Balluff BES 517-132-P7-H-S4 (obrázek~\ref{fig:senzor}). Podle štítku je určen pro napájení 10 až 55 V DC a má jmenovitou spínací vzdálenost 40 mm. Jeho stav představuje diskrétní údaj; konkrétní přiřazení vstupu a jeho zobrazení v aplikaci nejsou z podkladů jednoznačně patrné.
-\begin{figure}[htbp]
-\centering\includegraphics[width=.65\linewidth]{dalsi_merak_novy.jpg}
+Indukční snímač Balluff BES 517-132-P7-H-S4 je na obrázku~\ref{fig:senzor}.Napájení snímače je 10 až 55 V DC a má jmenovitou spínací vzdálenost 40 mm. Výstupem jsou dva navzájem negované digitální signály.
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=.65\linewidth]{dalsi_merak_novy.jpg}
 \caption{Indukční snímač Balluff}
 \label{fig:senzor}
 \end{figure}
 
 \subsection{Komunikace a aplikace v LabVIEW}
-Modbus TCP/IP umožňuje klientovi číst data dostupná v registrech síťového zařízení. V uvedené sestavě se aplikace LabVIEW připojuje k modulu Yaskawa na adrese \texttt{192.168.0.100}, která je uvedena v blokovém diagramu. Před komunikací je třeba zajistit síťovou dostupnost této adresy a odpovídající konfiguraci vstupních modulů. Podklady obsahují také snímek DHCP serveru a webového rozhraní stanice; samy o sobě však nedokládají přesný postup přidělení adresy.
+Modbus TCP/IP umožňuje číst data dostupná v registrech síťového zařízení. K modulu Yaskawa se v Labview připojuje na adrese 192.168.0.100, která byla přiřazena DHCP serverem. Před komunikací je třeba zajistit síťovou dostupnost této adresy a odpovídající konfiguraci vstupních modulů.
 
-\begin{figure}[htbp]
-\centering\includegraphics[width=\linewidth]{block_diagram_screen_novy.jpg}
-\caption{Blokový diagram aplikace LabVIEW}
+\begin{figure}[H]
+\makebox[\textwidth][c]{\includegraphics[width=1.2\linewidth]{block_diagram_screen_novy.jpg}}
+\caption{Blokový diagram v LabVIEW}
 \label{fig:labview}
 \end{figure}
 
@@ -30,14 +52,4 @@ Na obrázku~\ref{fig:labview} je připojení vytvořeno před cyklem \textit{Whi
 Blokový diagram dokládá návrh cyklického čtení dat přes Modbus TCP/IP a zpracování dvou hodnot pro indikátory teploty. Podklady neobsahují čitelné naměřené hodnoty ani záznam ověřující změnu stavu indukčního snímače, a proto nelze doložit dosažené výsledky ani potvrdit přenos všech tří údajů. Pro úplné vyhodnocení je nutné doplnit typ termočlánků, přiřazení kanálů a registrů a naměřené hodnoty včetně stavu snímače.
 
 \subsection{Použité přístroje}
-\begin{table}[htbp]
-\centering
-\begin{tabular}{|p{6cm}|p{7cm}|}\hline
-Přístroj & Výrobce a typ \\ \hline
-Komunikační modul & Yaskawa IM053-MT01, Modbus TCP/IP \\ \hline
-Indukční snímač & Balluff BES 517-132-P7-H-S4 \\ \hline
-Dva termočlánky & Typ z podkladů nezjištěn \\ \hline
-Vstupní moduly a napájecí zdroj & Přesné typy nejsou spolehlivě určeny \\ \hline
-Počítač & LabVIEW \\ \hline
-\end{tabular}
-\end{table}
+
