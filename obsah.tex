@@ -10,7 +10,7 @@ Cílem úlohy bylo získávat údaje ze dvou termočlánků a dalšího snímač
 \hline Komunikační modul & Yaskawa IM053-MT01\\ 
 \hline 1$\times$ DC napájecí modul & 007-0AA0 \\ 
 \hline 1$\times$ Termočlánkový modul & 031-1BB90 \\ 
-\hline 1$\times$ Proudové vstupy 0-10V, 4x ,16bit & 031-1CD30 \\ 
+\hline 1$\times$ Napěťové vstupy 0-10V, 4x ,16bit & 031-1CD30 \\ 
 \hline 1$\times$ Proudové vstupy 4-20mA, 4x ,16bit & 031-1CD40 \\ 
 \hline 2$\times$ Digitální vstupy 24V, 4x & 021-1BD00 \\ 
 \hline 1$\times$  Relátkové výstupy 3A & 022-1HB10 \\ 
@@ -60,6 +60,10 @@ Pro vyčtení stavů jednotlivých karet slouží pole \textit{values read}. Ke 
 Tlačítko \textit{Stop} cyklus ukončí a blok napravo od smyčky while uzavře komunikaci. Proto, aby program dobře fungoval, je třeba vždy otevřenou komunikaci uzavřít.
 
 \section{Vyhodnocení}
-Blokový diagram realizuje čtení a zápis dat přes Modbus TCP/IP. Pomocí programu je možné zapisovat do libovolných karet digitálních výstupů, číst z termočlánkových karet teploty a číst stav indukčního snímače pomocí digitálních vstupů. Celá úloha ukázala, jakým způsobem se komunikuje přes MODBUS TCP/IP protokol s komunikačním modulem se vzdálenými kartami nejrůznějších typů.
+V rámci úlohy byl vytvořen blokový diagram, který realizuje čtení a zápis dat přes Modbus TCP/IP. Pomocí programu je možné zapisovat do libovolných karet digitálních výstupů, číst teploty z termočlánkových karet a číst stav indukčního snímače pomocí digitálních vstupů.
+
+Hodnoty měřené z obou termočlánků byly reálné, snímání kovových objektů pomocí indukčního snímače bylo funkční stejně jako zápis digitálních hodnot do karet digitálních výstupů
+
+Celá úloha ukázala, jakým způsobem se komunikuje přes protokol MODBUS TCP/IP s komunikačním modulem a vzdálenými kartami nejrůznějších typů.
 
 
