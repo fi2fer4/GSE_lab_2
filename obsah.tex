@@ -1,6 +1,6 @@
 \section{Vypracování}
 \subsection{Popis úlohy a zapojení}
-Cílem úlohy bylo získávat údaje ze dvou termočlánků a dalšího snímače prostřednictvím vzdálené stanice vstupů a přenášet je po síti Ethernet do počítače. Stanici tvořil komunikační modul Yaskawa IM053-MT01 pro Modbus TCP/IP a připojené vstupní moduly. Sestava byla napájena externím zdrojem. Fotografie zapojení je na obrázku~\ref{fig:zapojeni}.
+Cílem úlohy bylo získávat údaje ze dvou termočlánků a dalšího snímače prostřednictvím vzdálené stanice vstupů a přenášet je přes síť Ethernet do počítače. Stanici tvořil komunikační modul Yaskawa IM053-MT01 pro Modbus TCP/IP a připojené vstupní moduly. Sestava byla napájena externím zdrojem. Fotografie zapojení je na obrázku~\ref{fig:zapojeni}.
 \begin{table}[H]
 \caption{Seznam použitých zařízení}
 \label{tab:zarizeni}
@@ -27,9 +27,9 @@ Cílem úlohy bylo získávat údaje ze dvou termočlánků a dalšího snímač
 \caption{Laboratorní sestava s komunikačním modulem, vzdálenými kartami, termočlánky, indukčním snímačem a zdrojem}
 \label{fig:zapojeni}
 \end{figure}
-
-Indukční snímač Balluff BES 517-132-P7-H-S4 je na obrázku~\ref{fig:senzor}.Napájení snímače je 10 až 55 V DC a má jmenovitou spínací vzdálenost 40 mm. Výstupem jsou dva navzájem negované digitální signály. Napájen je z 24V zdroje.
-
+\vspace{-1cm}
+Indukční snímač Balluff BES 517-132-P7-H-S4 je na obrázku~\ref{fig:senzor}.Napájení snímače je 10 až 55 V DC a má jmenovitou spínací vzdálenost 40 mm. Výstupem jsou dva navzájem negované digitální signály. Napájen je z 24 V zdroje.
+\vspace{-0.5cm}
 \begin{figure}[H]
 \centering
 \includegraphics[width=.65\linewidth]{dalsi_merak_novy.jpg}
@@ -38,16 +38,16 @@ Indukční snímač Balluff BES 517-132-P7-H-S4 je na obrázku~\ref{fig:senzor}.
 \end{figure}
 
 \subsection{Komunikace a aplikace v LabVIEW}
-Modbus TCP/IP umožňuje číst data dostupná v registrech síťového zařízení. K modulu Yaskawa se v Labview připojuje na adrese 192.168.0.100, která byla přiřazena DHCP serverem. Před komunikací je třeba zajistit síťovou dostupnost této adresy a odpovídající konfiguraci vstupních modulů.
+Modbus TCP/IP umožňuje číst data uložená v registrech síťového zařízení. K modulu Yaskawa se v Labview připojuje na adresu 192.168.0.100, která byla přiřazena DHCP serverem. Před komunikací je třeba zajistit síťovou dostupnost této adresy a odpovídající konfiguraci vstupních modulů.
 
 \begin{figure}[H]
 \centering
-\makebox[\textwidth][c]{\includegraphics[width=1.3\linewidth]{block_diagram_screen_novy.jpg}}
+\makebox[\textwidth][c]{\includegraphics[width=1.2\linewidth]{block_diagram_screen_novy.jpg}}
 \caption{Blokový diagram v LabVIEW}
 \label{fig:labview}
 \end{figure}
 
-Na obrázku~\ref{fig:labview} je připojení vytvořeno před cyklem \textit{while loop}. Jak již bylo řečeno, je použita IP adresa přiřazená DHCP serverem, k navázání komunikace slouží bloček \textit{Create Master Instance}. Zároveň se inicializuje pole (bloček proměnné \textit{Array}) pro zápis do digitálních výstupů nulami.
+Na obrázku~\ref{fig:labview} je připojení vytvořeno před cyklem \textit{while loop}. Jak již bylo řečeno, je použita IP adresa přiřazená DHCP serverem. K navázání komunikace slouží bloček \textit{Create Master Instance}. Zároveň se inicializuje pole (bloček proměnné \textit{Array}) pro zápis do digitálních výstupů nulami.
 
 Středobodem smyčky je blok pro Modbus TCP komunikaci \textit{Modbus Master Read/Write}. Konstantní vstupní hodnota 32 určuje počet registrů, se kterými se bude komunikovat. Konstanta 0 nahoře určuje počáteční hodnotu pro zápis do registrů. Konstanta 0 dole určuje počáteční hodnotu pro čtení z registrů. Jak počáteční adresa pro čtení, tak pro zápis, je 0, jelikož komunikační karta Yaskawa IM053-MT01 používá pro čtení a zápis dvě různé oddělené sekce. Registry jsou 16bitové.
 
@@ -55,15 +55,15 @@ Z vyčtených prvků s indexy 0 a 1 se získávají hodnoty jednotlivých termo�
 
 Pro zápis do registrů se pole boolean hodnot převede na 16bitové číslo, které se zapisuje do registru. Při zapisování do registrů je třeba si také uvědomit endianitu a přizpůsobit jí program - proto je použit blok \textit{Join numbers}. Díky tomu je možné ovládat DO karty, které indikují pomocí led diody, jaké konkrétní výstupy jsou aktivní.
 
-Pro vyčtení stavů jednotlivých karet slouží pole \textit{values read}. Ke kartám digitálních vstupů je připojen indukční snímač, který je přímo napájen ze zdroje. Jeho stav/měření ovlivňuje příslušná čísla v poli values read.
+Pro vyčtení stavů jednotlivých karet slouží pole \textit{values read}. Ke kartám digitálních vstupů je připojen indukční snímač, který je napájen přímo ze zdroje. Jeho stav/měření ovlivňuje příslušná čísla v poli values read.
 
-Tlačítko \textit{Stop} cyklus ukončí a blok napravo od smyčky while uzavře komunikaci. Proto, aby program dobře fungoval, je třeba vždy otevřenou komunikaci uzavřít.
+Tlačítko \textit{Stop} ukončí cyklus a blok napravo od smyčky while uzavře komunikaci. Proto, aby program dobře fungoval, je třeba vždy otevřenou komunikaci uzavřít.
 
 \section{Vyhodnocení}
 V rámci úlohy byl vytvořen blokový diagram, který realizuje čtení a zápis dat přes Modbus TCP/IP. Pomocí programu je možné zapisovat do libovolných karet digitálních výstupů, číst teploty z termočlánkových karet a číst stav indukčního snímače pomocí digitálních vstupů.
 
 Hodnoty měřené z obou termočlánků byly reálné, snímání kovových objektů pomocí indukčního snímače bylo funkční stejně jako zápis digitálních hodnot do karet digitálních výstupů
 
-Celá úloha ukázala, jakým způsobem se komunikuje přes protokol MODBUS TCP/IP s komunikačním modulem a vzdálenými kartami nejrůznějších typů.
+Celá úloha ukázala, jak se přes protokol MODBUS TCP/IP komunikuje s komunikačním modulem a vzdálenými kartami nejrůznějších typů.
 
 
